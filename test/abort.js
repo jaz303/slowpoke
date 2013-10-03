@@ -62,7 +62,7 @@ var cases = {
     'call args'                 : '(function(a,b,c) { b(); })(1, function() { %w }, 2)',
 
     // catch
-    // 'catch'                     : 'try { throw "boom"; } catch (e) { %w }',
+    'catch'                     : 'try { throw "boom"; } catch (e) { %w }',
 
     // conditional
     'tern - 1'                  : '%f ? 1 : 2',
@@ -90,7 +90,10 @@ var cases = {
     'if - 3'                    : 'if (false) { } else { %w }',
 
     // TODO: labeled statement
-    // TODO: member expression
+    
+    // member expression
+    'member exp - 1'            : '%f[0]',
+    'member exp - 2'            : 'var ary = []; ary[%f];',
 
     // new
     'new'                       : 'new (function() { %w })',

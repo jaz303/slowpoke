@@ -155,7 +155,8 @@ function slowpoke(ast, options) {
                 walkNodeWithBody(node, 'body');
                 break;
             case 'MemberExpression':
-                // TODO!
+                walk(node.object);
+                node.computed && walk(node.property);
                 break;
             case 'NewExpression':
                 walk(node.callee);
@@ -192,7 +193,7 @@ function slowpoke(ast, options) {
                 break;
             case 'TryStatement':
                 walk(node.block);
-                // TODO: not sure what goes in here
+                walkList(node.handlers);
                 if (node.finalizer) {
                     walkNodeWithBody(node, 'finalizer');
                 }
