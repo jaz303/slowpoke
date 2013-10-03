@@ -40,39 +40,99 @@ function ta(msg, code) {
 }
 
 var cases = {
-    'while - empty'             : 'while (true);',
-    'while - empty block'       : 'while (true) {}',
-    'while - single statement'  : 'var x = 0; while (true) x++;',
-    'while - multi statement'   : 'var x = 0, y = 0; while (true) { x++; y++; }',
 
-    'for - empty'               : 'for (var i = 0; i < 1; i = i);',
-    'for - empty block'         : 'for (var i = 0; i < 1; i = i) {}',
-    'for - single statement'    : 'var x = 0; for (var i = 0; i < 1; i = i) x++;',
-    'for - multi statement'     : 'var x = 0, y = 0; for (var i = 0; i < 1; i = i) { x++; y++; }',
+    // assign
+    'assign 1'                  : 'var a; a = %f',
+    // TODO: assign member expression
 
+    // array
+    'array'                     : '[%f, 1, 2]',
+
+    // bin exp
+    'bin op l'                  : '%f + 1',
+    'bin op r'                  : '1 + %f',
+
+    // logical op
+    'logical exp l'             : '%f && 1',
+    'logical exp r'             : '1 && %f',
+
+    // call
+    'call'                      : '%f',
+    'call 2'                    : '(function() { return function() { %w; } })()()',
+    'call args'                 : '(function(a,b,c) { b(); })(1, function() { %w }, 2)',
+
+    // catch
+    // 'catch'                     : 'try { throw "boom"; } catch (e) { %w }',
+
+    // conditional
+    'tern - 1'                  : '%f ? 1 : 2',
+    'tern - 2'                  : 'true ? %f : 2',
+    'tern - 3'                  : 'false ? 1 : %f',
+
+    // do-while
     'do - empty'                : 'do ; while (true)',
     'do - empty block'          : 'do {} while (true)',
     'do - single statement'     : 'var x = 0; do x++; while (true)',
     'do - multi statement'      : 'var x = 0, y = 0; do { x++; y++; } while (true)',
 
-    'array'                     : '[%f, 1, 2]',
+    // for
+    'for - empty'               : 'for (var i = 0; i < 1; i = i);',
+    'for - empty block'         : 'for (var i = 0; i < 1; i = i) {}',
+    'for - single statement'    : 'var x = 0; for (var i = 0; i < 1; i = i) x++;',
+    'for - multi statement'     : 'var x = 0, y = 0; for (var i = 0; i < 1; i = i) { x++; y++; }',
 
-    'tern - 1'                  : '%f ? 1 : 2',
-    'tern - 2'                  : 'true ? %f : 2',
-    'tern - 3'                  : 'false ? 1 : %f',
+    // function
+    'fun'                       : 'function _test() { %w }; _test();',
 
-    'call'                      : '%f',
-    'call args'                 : '(function(a,b,c) { b(); })(1, function() { %w }, 2)',
+    // if
+    'if - 1'                    : 'if (%f) { }',
+    'if - 2'                    : 'if (true) { %w }',
+    'if - 3'                    : 'if (false) { } else { %w }',
 
+    // TODO: labeled statement
+    // TODO: member expression
+
+    // new
     'new'                       : 'new (function() { %w })',
 
-    'bin op l'                  : '%f + 1',
-    'bin op r'                  : '1 + %f',
-    'logical exp l'             : '%f && 1',
-    'logical exp r'             : '1 && %f',
+    // object + properties
+    'object - 1'                : '{foo: %f}',
+    'object - 2'                : '({a: 1, b: 2, foo: %f, c: 3})',
+    
+    // return
+    'return'                    : '(function() { return %f })();',
+
+    // throw
+    'throw'                     : 'throw %f;',
+
+    // unary
+    'unary'                     : '-%f',
+
+    // TODO: update
+    // TODO: yield
+
+    // sequence
+    'sequence'                  : '1,2,%f;',
+
+    // switch
+    'switch - 1'                : 'var a = 1; switch (a) { case 1: %f; break; }',
+
+    // try
+    'try'                       : 'try { %f; } catch (e) { throw e; }',
+
+    // variable
     'variable'                  : 'var a = %f',
     'variable 2'                : 'var a = 1, b = %f',
-    'assign'                    : 'var a; a = %f'
+
+    // while
+    'while - empty'             : 'while (true);',
+    'while - empty block'       : 'while (true) {}',
+    'while - single statement'  : 'var x = 0; while (true) x++;',
+    'while - multi statement'   : 'var x = 0, y = 0; while (true) { x++; y++; }',
+
+    // with
+    'with - 1'                  : 'with (%f) { }',
+    'with - 2'                  : 'with ({}) { %f }'
 
 };
 

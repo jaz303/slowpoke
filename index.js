@@ -145,6 +145,7 @@ function slowpoke(ast, options) {
                 walkNodeWithBody(node, 'body');
                 break;
             case 'IfStatement':
+                walk(node.test);
                 walkNodeWithBody(node, 'consequent');
                 if (node.alternate) {
                     walkNodeWithBody(node, 'alternate');    
