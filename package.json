@@ -1,6 +1,6 @@
 {
   "name": "slowpoke",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Detect slow-running loops and abort after a user-defined timeout ",
   "main": "index.js",
   "scripts": {
