@@ -108,6 +108,46 @@ function slowpoke(ast, options) {
                 break;
             case 'CallExpression':
                 walk(node.callee);
+                walkList(node.arguments);
+                break;
+            case 'ArrayPattern':
+            case 'ArrayExpression':
+                walkList(node.elements);
+                break;
+            case 'ConditionalExpression':
+                walk(node.test);
+                walk(node.consequent);
+                walk(node.alternate);
+                break;
+            case 'LogicalExpression':
+            case 'BinaryExpression':
+            case 'AssignmentExpression':
+                walk(node.left);
+                walk(node.right);
+                break;
+            case 'VariableDeclaration':
+                walkList(node.declarations);
+                break;
+            case 'VariableDeclarator':
+                node.init && walk(node.init);
+                break;
+            case 'MemberExpression':
+                // TODO
+                break;
+            case 'NewExpression':
+                walk(node.callee);
+                break;
+            case 'ObjectExpression':
+                // TODO
+                break;
+            case 'SequenceExpression':
+                // TODO
+                break;
+            case 'UnaryExpression':
+                walk(node.argument);
+                break;
+            case 'UpdateExpression':
+                walk(node.argument);
                 break;
             case 'BlockStatement':
                 walkList(node.body);
