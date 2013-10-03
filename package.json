@@ -1,0 +1,25 @@
+{
+  "name": "slowpoke",
+  "version": "0.0.0",
+  "description": "Detect slow-running loops and abort after a user-defined timeout ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jaz303/slowpoke.git"
+  },
+  "keywords": [
+    "slow",
+    "loops",
+    "ast",
+    "transform",
+    "while",
+    "for",
+    "do"
+  ],
+  "author": "Jason Frame <jason@onehackoranother.com> (http://jasonframe.co.uk)",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
