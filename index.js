@@ -103,6 +103,12 @@ function slowpoke(ast, options) {
                     walkNodeWithBody(node, 'alternate');    
                 }
                 break;
+            case 'ExpressionStatement':
+                walk(node.expression);
+                break;
+            case 'CallExpression':
+                walk(node.callee);
+                break;
             case 'BlockStatement':
                 walkList(node.body);
                 break;
