@@ -88,13 +88,60 @@ function slowpoke(ast, options) {
 
     function walk(node) {
         switch (node.type) {
-            case 'ForStatement':
-            case 'ForInStatement':
-            case 'WhileStatement':
+            case 'AssignmentExpression':
+                walk(node.left);
+                walk(node.right);
+                break;
+            case 'ArrayPattern':
+            case 'ArrayExpression':
+                walkList(node.elements);
+                break;
+            case 'ArrowFunctionExpression':
+                // TODO!
+                break;
+            case 'BlockStatement':
+                walkList(node.body);
+                break;
+            case 'BinaryExpression':
+            case 'LogicalExpression':
+                walk(node.left);
+                walk(node.right);
+                break;
+            case 'CallExpression':
+                walk(node.callee);
+                walkList(node.arguments);
+                break;
+            case 'CatchClause':
+                walkNodeWithBody(node, 'body');
+                break;
+            case 'ComprehensionBlock':
+            case 'ComprehensionExpression':
+                // TODO!
+                break;
+            case 'ConditionalExpression':
+                walk(node.test);
+                walk(node.consequent);
+                walk(node.alternate);
+                break;
             case 'DoWhileStatement':
-            case 'WithStatement':
-            case 'FunctionExpression':
+                walkNodeWithBody(node, 'body');
+                walk(node.test);
+                break;
+            case 'ExpressionStatement':
+                walk(node.expression);
+                break;
+            case 'ForStatement':
+                node.init && walk(node.init);
+                node.test && walk(node.test);
+                node.update && walk(node.update);
+                walkNodeWithBody(node, 'body');
+                break;
+            case 'ForInStatement':
+                walk(node.right);
+                walkNodeWithBody(node, 'body');
+                break;
             case 'FunctionDeclaration':
+            case 'FunctionExpression':
                 walkNodeWithBody(node, 'body');
                 break;
             case 'IfStatement':
@@ -103,27 +150,51 @@ function slowpoke(ast, options) {
                     walkNodeWithBody(node, 'alternate');    
                 }
                 break;
-            case 'ExpressionStatement':
-                walk(node.expression);
+            case 'LabeledStatement':
+                walkNodeWithBody(node, 'body');
                 break;
-            case 'CallExpression':
+            case 'MemberExpression':
+                // TODO!
+                break;
+            case 'NewExpression':
                 walk(node.callee);
-                walkList(node.arguments);
                 break;
-            case 'ArrayPattern':
-            case 'ArrayExpression':
-                walkList(node.elements);
+            case 'ObjectExpression':
+                walkList(node.properties);
                 break;
-            case 'ConditionalExpression':
-                walk(node.test);
-                walk(node.consequent);
-                walk(node.alternate);
+            case 'ObjectPattern':
+                // TODO!
                 break;
-            case 'LogicalExpression':
-            case 'BinaryExpression':
-            case 'AssignmentExpression':
-                walk(node.left);
-                walk(node.right);
+            case 'Program':
+                walkList(node.body);
+                break;
+            case 'Property':
+                walk(node.value);
+                break;
+            case 'ReturnStatement':
+            case 'ThrowStatement':
+            case 'UnaryExpression':
+            case 'UpdateExpression':
+            case 'YieldExpression':
+                walk(node.argument);
+                break;
+            case 'SequenceExpression':
+                walkList(node.expressions);
+                break;
+            case 'SwitchStatement':
+                walk(node.discriminant);
+                walkList(node.cases);
+                break;
+            case 'SwitchCase':
+                // TODO: not sure if this is strictly correct!
+                walkList(node.consequent);
+                break;
+            case 'TryStatement':
+                walk(node.block);
+                // TODO: not sure what goes in here
+                if (node.finalizer) {
+                    walkNodeWithBody(node, 'finalizer');
+                }
                 break;
             case 'VariableDeclaration':
                 walkList(node.declarations);
@@ -131,40 +202,33 @@ function slowpoke(ast, options) {
             case 'VariableDeclarator':
                 node.init && walk(node.init);
                 break;
-            case 'MemberExpression':
-                // TODO
+            case 'WhileStatement':
+                walk(node.test);
+                walkNodeWithBody(node, 'body');
                 break;
-            case 'NewExpression':
-                walk(node.callee);
+            case 'WithStatement':
+                walk(node.object);
+                walkNodeWithBody(node, 'body');
                 break;
-            case 'ObjectExpression':
-                // TODO
+
+            // Don't worry about these ones
+            case 'BreakStatement':
+            case 'ContinueStatement':
+            case 'DirectiveStatement':
+            case 'DebuggerStatement':
+            case 'EmptyStatement':
+            case 'Identifier':
+            case 'Literal':
+            case 'ThisExpression':
                 break;
-            case 'SequenceExpression':
-                // TODO
-                break;
-            case 'UnaryExpression':
-                walk(node.argument);
-                break;
-            case 'UpdateExpression':
-                walk(node.argument);
-                break;
-            case 'BlockStatement':
-                walkList(node.body);
-                break;
-            case 'SwitchCase':
-                walkList(node.consequent);
-                break;
-            case 'TryStatement':
-                // TODO!!!
-                break;
+
             default:
-                // do nothing
+                throw new Error("unknown node type: " + node.type);
         }
 
     }
 
-    walkList(ast.body);
+    walk(ast);
 
     return ast;
 
