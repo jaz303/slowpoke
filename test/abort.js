@@ -68,6 +68,8 @@ var cases = {
 
     'bin op l'                  : '%f + 1',
     'bin op r'                  : '1 + %f',
+    'logical exp l'             : '%f && 1',
+    'logical exp r'             : '1 && %f',
     'variable'                  : 'var a = %f',
     'variable 2'                : 'var a = 1, b = %f',
     'assign'                    : 'var a; a = %f'
