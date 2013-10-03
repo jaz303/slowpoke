@@ -27,10 +27,9 @@ function ta(msg, code) {
             var now = Date.now();
             eval(code);
             assert.fail();
-            assert.ok(Date.now() - now >= 50);
         } catch (e) {
             assert.ok(e.message === '---TOOSLOW---');
-            assert.pass();
+            assert.ok(Date.now() - now >= 50);
         }
 
         assert.end();
