@@ -42,7 +42,7 @@ var cases = {
 
     // assign
     'assign 1'                  : 'var a; a = %f',
-    // TODO: assign member expression
+    'assign 2'                  : 'var a = []; a[%f] = 10',
 
     // array
     'array'                     : '[%f, 1, 2]',
