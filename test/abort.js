@@ -117,7 +117,9 @@ var cases = {
     'sequence'                  : '1,2,%f;',
 
     // switch
-    'switch - 1'                : 'var a = 1; switch (a) { case 1: %f; break; }',
+    'switch - 1'                : 'var a = 1; switch (a) { case 1: %w; break; }',
+    'switch - 2'                : 'var a = 1; switch (a) { case 0; break; case 1: a++; %w; a--; break; }',
+    'switch - 3'                : 'var a = 0; switch (a) { case 0: case 1: %w; break; case 2: break; }',
 
     // try
     'try'                       : 'try { %f; } catch (e) { throw e; }',
