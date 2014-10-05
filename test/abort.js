@@ -147,3 +147,17 @@ for (var k in cases) {
 for (var k in cases) {
     ta(k + ' (wrapped)', '(function() { ' + cases[k] + ' })()');
 }
+
+test('return with no arg does not throw exception', function(assert) {
+
+    var ast = esprima.parse('function foo() { return; }');
+
+    try {
+        slowpoke(ast);
+        assert.pass();
+    } catch (e) {
+        assert.fail();
+    }
+    assert.end();
+    
+});

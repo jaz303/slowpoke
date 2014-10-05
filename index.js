@@ -178,7 +178,9 @@ function slowpoke(ast, options) {
             case 'UnaryExpression':
             case 'UpdateExpression':
             case 'YieldExpression':
-                walk(node.argument);
+                if (node.argument) {
+                    walk(node.argument);    
+                }
                 break;
             case 'SequenceExpression':
                 walkList(node.expressions);
